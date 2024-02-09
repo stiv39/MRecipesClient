@@ -1,12 +1,16 @@
-import { AppBar, Box, Container, IconButton, Menu, MenuItem, TextField, Toolbar } from '@mui/material'
+import { AppBar, Box, Container, IconButton, Menu, MenuItem, Toolbar } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Search } from '@mui/icons-material'
+import useArticleStore from '../../store/store'
+import { DebounceInput } from '../debounceInput'
 
 export const NavigationBar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const navigate = useNavigate()
+
+  const searchTerm = useArticleStore((s) => s.searchTerm)
+  const setSearchTerm = useArticleStore((s) => s.setSearchTerm)
 
   const handleMenuOpen = (event: any) => {
     setAnchorEl(event.currentTarget)
@@ -31,7 +35,7 @@ export const NavigationBar: React.FC = () => {
               <MenuItem onClick={() => navigate('/contact')}>KONTAKT</MenuItem>
             </Menu>
           </Box>
-          <TextField fullWidth InputProps={{ startAdornment: <Search /> }} />
+          <DebounceInput value={searchTerm!} handleChange={setSearchTerm} />
         </Toolbar>
       </Container>
     </AppBar>

@@ -2,25 +2,22 @@ import { categoriesMock, articlesMock, articleDetailsMock } from './mocks'
 import { Article, ArticleDetails, Category, IArticleService } from './types'
 import axios from 'axios'
 
-export class ArticleService implements IArticleService {
-  _basePath: string
-  constructor({ basePath }: { basePath: string }) {
-    this._basePath = basePath
-  }
+const baseurl = 'https://localhost:7116'
 
-  loadArticles = async (): Promise<Article[]> => {
+export class ArticleService implements IArticleService {
+  loadArticles = async (searchTerm: string): Promise<Article[]> => {
     try {
-      const response = await axios.get(`https://localhost:7116/articles`)
+      const response = await axios.get(`${baseurl}/articles`)
       return response.data
     } catch (ex) {
       console.error(ex)
-      return articlesMock
+      return searchTerm ? articlesMock.filter((a) => a.title.toLowerCase().includes(searchTerm)) : articlesMock
     }
   }
 
   loadCategories = async (): Promise<Category[]> => {
     try {
-      const response = await axios.get(`https://localhost:7116/categories`)
+      const response = await axios.get(`${baseurl}/categories`)
       return response.data
     } catch (ex) {
       console.error(ex)
@@ -30,7 +27,7 @@ export class ArticleService implements IArticleService {
 
   loadArticleDetails = async (id: string): Promise<ArticleDetails | null> => {
     try {
-      const response = await axios.get(`https://localhost:7116/articles/${id}`)
+      const response = await axios.get(`${baseurl}/articles/${id}`)
       return response.data
     } catch (ex) {
       console.error(ex)

@@ -1,14 +1,15 @@
-import { Button, Grid, Typography } from '@mui/material'
+import { Button, CircularProgress, Grid, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { ArticleCard } from '../components'
 import useArticles from '../hooks/useArticles'
+import useCategories from '../hooks/useCategories'
 import useArticleStore from '../store/store'
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate()
-
-  const { data, isLoading } = useArticles()
-  const categories = useArticleStore((s) => s.categories)
+  const searchTerm = useArticleStore((s) => s.searchTerm)
+  const { data: articles, isLoading } = useArticles(searchTerm!)
+  const { data: categories } = useCategories()
 
   const handleArticleSelection = (id: string) => {
     navigate(`/articles/${id}`)
@@ -42,20 +43,26 @@ export const HomePage: React.FC = () => {
         </Grid>
       </div>
 
-      <div>
-        <Grid container spacing={2} justifyContent="center">
-          {data.map((article) => (
-            <Grid item xs={12} sm={6} md={3} lg={3} xl={3} key={article.id + article.title}>
-              <ArticleCard
-                key={article.id}
-                article={article}
-                imgUrl={`/assets/${article.id}.jpg`}
-                handleClickAction={handleArticleSelection}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </div>
+      <>
+        {isLoading ? (
+          <Grid item xs={12} textAlign={'center'} marginTop={10}>
+            <CircularProgress />
+          </Grid>
+        ) : (
+          <Grid container spacing={2} justifyContent="center">
+            {articles?.map((article) => (
+              <Grid item xs={12} sm={6} md={3} lg={3} xl={3} key={article.id + article.title}>
+                <ArticleCard
+                  key={article.id}
+                  article={article}
+                  imgUrl={`/assets/${article.id}.jpg`}
+                  handleClickAction={handleArticleSelection}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        )}
+      </>
     </>
   )
 }
