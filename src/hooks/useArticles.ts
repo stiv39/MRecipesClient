@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
 import { ArticleService } from '../services/articleService/articleService'
 import { articlesMock } from '../services/articleService/mocks'
+import { ArticleQuery } from '../store/store'
 
 var service = new ArticleService()
 
-const useArticles = (searchTerm: string) =>
+const useArticles = (query: ArticleQuery) =>
   useQuery({
-    queryKey: ['articles', searchTerm],
-    queryFn: () => service.loadArticles(searchTerm),
+    queryKey: ['articles', query],
+    queryFn: () => service.loadArticles(query),
     initialData: articlesMock,
   })
 

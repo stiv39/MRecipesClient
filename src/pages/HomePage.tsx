@@ -7,12 +7,23 @@ import useArticleStore from '../store/store'
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate()
-  const searchTerm = useArticleStore((s) => s.searchTerm)
-  const { data: articles, isLoading } = useArticles(searchTerm!)
+  const query = useArticleStore((s) => s.articleQuery)
+  const tags = useArticleStore((s) => s.articleQuery.tags)
+  const setTags = useArticleStore((s) => s.setTags)
+  const { data: articles, isLoading } = useArticles(query!)
   const { data: categories } = useCategories()
 
   const handleArticleSelection = (id: string) => {
     navigate(`/articles/${id}`)
+  }
+
+  const handleSetTag = (tag: string) => {
+    if (tags.includes(tag)) {
+      var tags2 = tags.filter((t) => t !== tag)
+      setTags(tags2)
+    } else {
+      setTags([...tags, tag])
+    }
   }
 
   return (
@@ -27,12 +38,14 @@ export const HomePage: React.FC = () => {
       </Grid>
       <div>
         <Grid container justifyContent={'center'} textAlign={'center'} display={'flex'} flexDirection={'row'}>
-          {categories.map((category) => (
-            <Grid item xs={6} md={2} lg={1} key={category.name + category.id}>
+          {categories?.map((category, i) => (
+            <Grid item xs={6} md={2} lg={1} key={i + 10}>
               <Button
                 style={{
                   padding: '0px 10px',
+                  border: tags.includes(category?.name) ? '1px solid red' : 'none',
                 }}
+                onClick={() => handleSetTag(category.name)}
               >
                 <Typography sx={{ color: 'black' }}>
                   <b>{category.name}</b>
@@ -55,11 +68,12 @@ export const HomePage: React.FC = () => {
                 <ArticleCard
                   key={article.id}
                   article={article}
-                  imgUrl={`/assets/${article.id}.jpg`}
+                  imgUrl={`/assets/${article.image}.jpg`}
                   handleClickAction={handleArticleSelection}
                 />
               </Grid>
             ))}
+            {articles.length === 0 && <Typography marginTop={20}>No articles found</Typography>}
           </Grid>
         )}
       </>

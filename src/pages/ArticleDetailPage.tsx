@@ -11,22 +11,7 @@ export const ArticleDetailPage: React.FC = () => {
 
   const { data, isLoading } = useArticle(articleId!)
 
-  var dummyComments: CommentProps[] = [
-    { name: 'Jozka', text: 'najlepsie co kedy moj kocur chaloval', date: new Date() },
-    { name: 'Peterka', text: 'jak to robis ze je to take fajne', date: new Date() },
-    { name: 'Fuzonozka', text: 'bomby pecky vlasy', date: new Date() },
-    {
-      name: 'Jolanka',
-      text: 'mply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with',
-      date: new Date(),
-    },
-  ]
-
-  const [articleComments, setArticleComments] = useState<CommentProps[]>(dummyComments)
-
-  const HandleAddComment = (commentName: string, commentText: string) => {
-    setArticleComments([...articleComments, { name: commentName, text: commentText, date: new Date() }])
-  }
+  const HandleAddComment = (commentName: string, commentText: string) => {}
 
   return (
     <Grid container sx={{ textAlign: 'center' }}>
@@ -55,11 +40,11 @@ export const ArticleDetailPage: React.FC = () => {
 
           <Grid container xs={12} textAlign={'left'}>
             <Grid item xs={12} lg={5}>
-              <img src={`/assets/${data?.id}.jpg`} alt="imagefood" style={{ maxHeight: '300px' }} />
+              <img src={`/assets/${data?.image}.jpg`} alt="imagefood" style={{ maxHeight: '300px' }} />
             </Grid>
 
             <Grid item xs={12} lg={5}>
-              <Typography>{data?.body}</Typography>
+              <Typography>{data?.description}</Typography>
             </Grid>
           </Grid>
 
@@ -69,9 +54,9 @@ export const ArticleDetailPage: React.FC = () => {
             </Typography>
             <Box>
               <ul>
-                {data?.ingredients.map((ingredient) => (
-                  <li key={ingredient.id} style={{ textAlign: 'left' }}>
-                    {ingredient.value}
+                {data?.ingredients.map((ingredient, index) => (
+                  <li key={index + 100} style={{ textAlign: 'left' }}>
+                    {ingredient}
                   </li>
                 ))}
               </ul>
@@ -81,11 +66,11 @@ export const ArticleDetailPage: React.FC = () => {
             <Typography textAlign={'left'}>
               <b>POSTUP</b>
             </Typography>
-            {data?.guide && data?.guide.length > 0
-              ? data.guide.map((guide, i) => (
-                  <Box key={i + 400}>
+            {data?.steps
+              ? data.steps.map((step, i) => (
+                  <Box key={i + 200}>
                     <Typography textAlign={'left'} marginTop={5}>
-                      <b>{`${i + 1}.`}</b> {guide}
+                      <b>{`${i + 1}.`}</b> {step}
                     </Typography>
                   </Box>
                 ))
@@ -95,8 +80,8 @@ export const ArticleDetailPage: React.FC = () => {
             <Typography typography={'h6'} textAlign={'left'}>
               Komentáre
             </Typography>
-            {articleComments.map((comment, index) => (
-              <CommentItem key={index + 500} text={comment.text} name={comment.name} date={comment.date} />
+            {data?.articleComments.map((comment, index) => (
+              <CommentItem key={index + 300} text={comment.description} name={comment.name} date={comment.dateAdded} />
             ))}
           </Grid>
           <Grid item xs={12} marginTop={10}>

@@ -1,38 +1,43 @@
+import { ArticleQuery } from '../../store/store'
+
 export type IArticleService = {
-  loadArticles(searchTerm: string): Promise<Article[]>
+  loadArticles(query: ArticleQuery): Promise<Article[]>
+}
+
+export type ArticleResponse = {
+  items: Article[]
 }
 
 export type Article = {
   author: string
-  authorId: string
-  body: string
-  category: string
-  categoryId: string
-  description: string
   id: string
   tags: string[]
   title: string
+  image: string
   dateAdded: string
 }
 
-export type Category = {
-  id: string
+export type Tag = {
   name: string
 }
 
 export type ArticleDetails = {
   author: string
-  authorId: string
-  body: string
-  category: string
-  categoryId: string
   description: string
   id: string
   tags: string[]
   title: string
   dateAdded: string
-  ingredients: Ingredient[]
-  guide: string[]
+  ingredients: string[]
+  steps: string[]
+  image: string
+  articleComments: ArticleComment[]
+}
+
+export type ArticleComment = {
+  name: string
+  description: string
+  dateAdded: string
 }
 
 export type Ingredient = {

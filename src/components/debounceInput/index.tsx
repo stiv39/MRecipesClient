@@ -9,7 +9,7 @@ interface DebounceInputProps {
 }
 
 export const DebounceInput: React.FC<DebounceInputProps> = ({
-  value,
+  value = '',
   handleChange,
   delay = 1000,
 }: DebounceInputProps) => {

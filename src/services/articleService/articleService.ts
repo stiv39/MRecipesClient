@@ -1,23 +1,28 @@
+import { ArticleQuery } from '../../store/store'
 import { categoriesMock, articlesMock, articleDetailsMock } from './mocks'
-import { Article, ArticleDetails, Category, IArticleService } from './types'
+import { Article, ArticleDetails, Tag, IArticleService } from './types'
 import axios from 'axios'
 
-const baseurl = 'https://localhost:7116'
+const baseurl = 'https://localhost:7200'
 
 export class ArticleService implements IArticleService {
-  loadArticles = async (searchTerm: string): Promise<Article[]> => {
+  loadArticles = async ({ searchTerm, tags }: ArticleQuery): Promise<Article[]> => {
     try {
-      const response = await axios.get(`${baseurl}/articles`)
-      return response.data
+      const response = await axios.get(`${baseurl}/articles`, {
+        params: { searchTerm: searchTerm, tags: tags.join(',') },
+      })
+      console.log(response.data)
+      return response.data.items
     } catch (ex) {
       console.error(ex)
-      return searchTerm ? articlesMock.filter((a) => a.title.toLowerCase().includes(searchTerm)) : articlesMock
+
+      return []
     }
   }
 
-  loadCategories = async (): Promise<Category[]> => {
+  loadCategories = async (): Promise<Tag[]> => {
     try {
-      const response = await axios.get(`${baseurl}/categories`)
+      const response = await axios.get(`${baseurl}/tags`)
       return response.data
     } catch (ex) {
       console.error(ex)

@@ -9,7 +9,7 @@ export const NavigationBar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const navigate = useNavigate()
 
-  const searchTerm = useArticleStore((s) => s.searchTerm)
+  const searchTerm = useArticleStore((s) => s.articleQuery.searchTerm)
   const setSearchTerm = useArticleStore((s) => s.setSearchTerm)
 
   const handleMenuOpen = (event: any) => {

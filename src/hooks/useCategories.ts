@@ -9,7 +9,7 @@ const useArticles = () =>
     queryKey: ['categories'],
     queryFn: service.loadCategories,
     staleTime: 60 * 60 * 24 * 1000,
-    initialData: categoriesMock,
+    // initialData: categoriesMock,
   })
 
 export default useArticles

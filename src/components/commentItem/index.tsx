@@ -13,7 +13,7 @@ export const CommentItem: React.FC<CommentProps> = ({ text, name, date }) => {
             {name}
           </Typography>
           <Typography typography={'caption'} textAlign={'left'}>
-            {date.toLocaleDateString('sk')}
+            {date}
           </Typography>
           <Typography textAlign={'left'}>{text}</Typography>
         </Stack>
