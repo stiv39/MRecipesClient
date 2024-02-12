@@ -1,1 +1,1 @@
-export type AddCommentProps = { id: string; OnAddComment: (name: string, text: string) => void }
+export type AddCommentProps = { id: string; articleId: string }

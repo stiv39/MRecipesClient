@@ -1,8 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { useState } from 'react'
 import { Box, Breadcrumbs, Grid, Typography, Button, CircularProgress, Skeleton } from '@mui/material'
 import useArticle from '../hooks/useArticle'
-import { CommentProps } from '../components/commentItem/types'
 import { AddComment, CommentItem } from '../components'
 
 export const ArticleDetailPage: React.FC = () => {
@@ -10,8 +8,6 @@ export const ArticleDetailPage: React.FC = () => {
   const { articleId } = useParams()
 
   const { data, isLoading } = useArticle(articleId!)
-
-  const HandleAddComment = (commentName: string, commentText: string) => {}
 
   return (
     <Grid container sx={{ textAlign: 'center' }}>
@@ -85,7 +81,7 @@ export const ArticleDetailPage: React.FC = () => {
             ))}
           </Grid>
           <Grid item xs={12} marginTop={10}>
-            <AddComment id={'article-detail'} OnAddComment={HandleAddComment} />
+            <AddComment id={'article-detail'} articleId={articleId!} />
           </Grid>
         </>
       )}

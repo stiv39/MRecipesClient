@@ -2,6 +2,8 @@ import { ArticleQuery } from '../../store/store'
 
 export type IArticleService = {
   loadArticles(query: ArticleQuery): Promise<Article[]>
+  loadCategories(): Promise<Tag[]>
+  addArticleComment(name: string, description: string, articleId: string): Promise<boolean>
 }
 
 export type ArticleResponse = {

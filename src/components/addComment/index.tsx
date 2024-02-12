@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { AddCommentProps } from './types'
 import { Button, Grid, TextField, Typography } from '@mui/material'
+import useAddArticleComment from '../../hooks/useAddArticleComment'
 
-export const AddComment: React.FC<AddCommentProps> = ({ id, OnAddComment }) => {
+export const AddComment: React.FC<AddCommentProps> = ({ id, articleId }) => {
   const [commentName, setCommentName] = useState<string>('')
   const [commentText, setCommentText] = useState<string>('')
 
-  const HandleSubmit = () => {
-    OnAddComment(commentName, commentText)
+  const { mutate } = useAddArticleComment(articleId!, commentText, commentName)
+
+  const handleSubmit = () => {
+    mutate({ articleId: articleId, description: commentText, name: commentName })
     setCommentName('')
     setCommentText('')
   }
@@ -38,7 +41,7 @@ export const AddComment: React.FC<AddCommentProps> = ({ id, OnAddComment }) => {
         />
       </Grid>
       <Grid item xs={12}>
-        <Button onClick={() => HandleSubmit()} disabled={commentName == '' || commentText == ''}>
+        <Button onClick={() => handleSubmit()} disabled={commentName == '' || commentText == ''}>
           Pridaj komentár
         </Button>
       </Grid>
