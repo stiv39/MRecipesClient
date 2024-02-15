@@ -34,7 +34,7 @@ export const ArticleDetailPage: React.FC = () => {
             </Typography>
           </Grid>
 
-          <Grid container xs={12} textAlign={'left'}>
+          <Grid container textAlign={'left'}>
             <Grid item xs={12} lg={5}>
               <img src={`/assets/${data?.image}.jpg`} alt="imagefood" style={{ maxHeight: '300px' }} />
             </Grid>

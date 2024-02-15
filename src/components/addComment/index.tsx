@@ -7,7 +7,7 @@ export const AddComment: React.FC<AddCommentProps> = ({ id, articleId }) => {
   const [commentName, setCommentName] = useState<string>('')
   const [commentText, setCommentText] = useState<string>('')
 
-  const { mutate } = useAddArticleComment(articleId!, commentText, commentName)
+  const { mutate } = useAddArticleComment(articleId)
 
   const handleSubmit = () => {
     mutate({ articleId: articleId, description: commentText, name: commentName })

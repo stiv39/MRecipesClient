@@ -3,7 +3,7 @@ import { ArticleQuery } from '../../store/store'
 export type IArticleService = {
   loadArticles(query: ArticleQuery): Promise<Article[]>
   loadCategories(): Promise<Tag[]>
-  addArticleComment(name: string, description: string, articleId: string): Promise<boolean>
+  addArticleComment(newComment: AddArticleComment): Promise<boolean>
 }
 
 export type ArticleResponse = {
@@ -40,6 +40,12 @@ export type ArticleComment = {
   name: string
   description: string
   dateAdded: string
+}
+
+export type AddArticleComment = {
+  articleId: string
+  name: string
+  description: string
 }
 
 export type Ingredient = {

@@ -1,13 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ArticleService } from '../services/articleService/articleService'
+import { AddArticleComment } from '../services/articleService/types'
 
 var service = new ArticleService()
 
-const useAddArticleComment = (articleId: string, description: string, name: string) => {
+const useAddArticleComment = (articleId: string) => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ articleId, description, name }) => service.addArticleComment(articleId, description, name),
+    mutationFn: (newComment: AddArticleComment) => service.addArticleComment(newComment),
     onSuccess: () => {
       queryClient.invalidateQueries(['article', articleId])
     },
