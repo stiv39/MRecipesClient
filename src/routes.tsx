@@ -5,6 +5,7 @@ import { ArticleDetailPage } from './pages/ArticleDetailPage'
 import { ContactPage } from './pages/ContactPage'
 import { AdminNewArticlePage } from './pages/AdminNewArticlePage'
 import { AdminMenuPage } from './pages/AdminMenuPage'
+import { AdminArticlesPage } from './pages/AdminArticlesPage'
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       { path: 'contact', element: <ContactPage /> },
       { path: 'admin', element: <AdminMenuPage /> },
       { path: 'admin/new', element: <AdminNewArticlePage /> },
+      { path: 'admin/articles', element: <AdminArticlesPage /> },
     ],
   },
 ])

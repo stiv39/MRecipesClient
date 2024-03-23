@@ -53,6 +53,19 @@ export class ArticleService implements IArticleService {
     }
   }
 
+  deleteArticle = async (articleId: string): Promise<boolean> => {
+    try {
+      const response = await axios.delete(`${baseurl}/articles/${articleId}`)
+      if (response.status === 204) {
+        return true
+      }
+      return false
+    } catch (ex) {
+      console.error(ex)
+      return false
+    }
+  }
+
   addArticleComment = async ({ articleId, name, description }: AddArticleComment): Promise<boolean> => {
     try {
       await axios.post(`${baseurl}/articles/comment`, { articleId: articleId, name: name, description: description })

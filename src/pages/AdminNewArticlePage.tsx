@@ -21,13 +21,6 @@ export const AdminNewArticlePage: React.FC = () => {
   })
 
   const handleSubmit = () => {
-    const newArticle = {
-      tags: tags.split(',').map((t) => t.trim()),
-      ingredients: ingredients.split(',').map((i) => ({ id: '', value: i.trim() })),
-      title: title,
-      descritpion: description,
-      steps: steps.split('---').map((g) => g.trim()),
-    }
     mutate({ title: title, description: description, steps: steps, ingredients: ingredients, tags: tags })
   }
 

@@ -5,6 +5,7 @@ export const AdminMenuPage: React.FC = () => {
   const navigate = useNavigate()
 
   const goToNewArticle = () => navigate('/admin/new')
+  const goToArticles = () => navigate('/admin/articles')
 
   return (
     <Grid container>
@@ -19,7 +20,9 @@ export const AdminMenuPage: React.FC = () => {
         </Button>
       </Grid>
       <Grid item xs={12} marginTop={4}>
-        <Button variant="contained">Uprav existujuci clanok</Button>
+        <Button variant="contained" onClick={goToArticles}>
+          Uprav existujuci clanok
+        </Button>
       </Grid>
       <Grid item xs={12} marginTop={4}>
         <Button variant="contained">Pridaj kategoriu</Button>
