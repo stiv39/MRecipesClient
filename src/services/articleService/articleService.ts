@@ -1,6 +1,6 @@
 import { ArticleQuery } from '../../store/store'
 import { categoriesMock, articleDetailsMock } from './mocks'
-import { Article, ArticleDetails, Tag, IArticleService, AddArticleComment } from './types'
+import { Article, ArticleDetails, Tag, IArticleService, AddArticleComment, AddArticle } from './types'
 import axios from 'axios'
 
 const baseurl = 'https://localhost:7200'
@@ -37,6 +37,19 @@ export class ArticleService implements IArticleService {
     } catch (ex) {
       console.error(ex)
       return articleDetailsMock(id)
+    }
+  }
+
+  addNewArticle = async (article: AddArticle): Promise<boolean> => {
+    try {
+      const response = await axios.post(`${baseurl}/articles`, { ...article })
+      if (response.data) {
+        return true
+      }
+      return false
+    } catch (ex) {
+      console.error(ex)
+      return false
     }
   }
 

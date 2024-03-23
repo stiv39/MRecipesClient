@@ -1,26 +1,34 @@
 import { Button, Grid, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import useAddNewArticle from '../hooks/useAddNewArticle'
 
 export const AdminNewArticlePage: React.FC = () => {
   const navigate = useNavigate()
 
   const [title, setTitle] = useState<string>('')
-  const [body, setBody] = useState<string>('')
-  const [guide, setGuide] = useState<string>('')
+  const [description, setDescription] = useState<string>('')
+  const [steps, setSteps] = useState<string>('')
   const [tags, setTags] = useState<string>('')
   const [ingredients, setIngredients] = useState<string>('')
+
+  const { mutate } = useAddNewArticle({
+    title: title,
+    description: description,
+    steps: steps,
+    ingredients: ingredients,
+    tags: tags,
+  })
 
   const handleSubmit = () => {
     const newArticle = {
       tags: tags.split(',').map((t) => t.trim()),
       ingredients: ingredients.split(',').map((i) => ({ id: '', value: i.trim() })),
       title: title,
-      body: body,
-      guide: guide.split('---').map((g) => g.trim()),
+      descritpion: description,
+      steps: steps.split('---').map((g) => g.trim()),
     }
-
-    console.log(newArticle)
+    mutate({ title: title, description: description, steps: steps, ingredients: ingredients, tags: tags })
   }
 
   const goBack = () => navigate('/admin')
@@ -42,8 +50,8 @@ export const AdminNewArticlePage: React.FC = () => {
           multiline
           minRows={10}
           fullWidth
-          value={body}
-          onChange={(e) => setBody(e?.target.value)}
+          value={description}
+          onChange={(e) => setDescription(e?.target.value)}
         />
       </Grid>
 
@@ -54,8 +62,8 @@ export const AdminNewArticlePage: React.FC = () => {
           multiline
           minRows={10}
           fullWidth
-          value={guide}
-          onChange={(e) => setGuide(e?.target.value)}
+          value={steps}
+          onChange={(e) => setSteps(e?.target.value)}
         />
       </Grid>
 
@@ -79,8 +87,8 @@ export const AdminNewArticlePage: React.FC = () => {
           onClick={handleSubmit}
           disabled={
             title.length === 0 ||
-            body.length === 0 ||
-            guide.length === 0 ||
+            description.length === 0 ||
+            steps.length === 0 ||
             tags.length === 0 ||
             ingredients.length === 0
           }
