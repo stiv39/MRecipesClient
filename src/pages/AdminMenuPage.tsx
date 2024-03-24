@@ -1,8 +1,18 @@
 import { Button, Grid, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import useArticleStore from '../store/store'
+import { useEffect } from 'react'
 
 export const AdminMenuPage: React.FC = () => {
   const navigate = useNavigate()
+
+  const user = useArticleStore((s) => s.user)
+
+  useEffect(() => {
+    if (!user || user.length === 0) {
+      navigate('admin/login')
+    }
+  }, [user])
 
   const goToNewArticle = () => navigate('/admin/new')
   const goToArticles = () => navigate('/admin/articles')
@@ -23,9 +33,6 @@ export const AdminMenuPage: React.FC = () => {
         <Button variant="contained" onClick={goToArticles}>
           Uprav existujuci clanok
         </Button>
-      </Grid>
-      <Grid item xs={12} marginTop={4}>
-        <Button variant="contained">Pridaj kategoriu</Button>
       </Grid>
     </Grid>
   )

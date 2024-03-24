@@ -4,9 +4,18 @@ import useArticleStore from '../store/store'
 import useArticles from '../hooks/useArticles'
 import { ArticleCard } from '../components'
 import useDeleteArticle from '../hooks/useDeleteArticle'
+import { useEffect } from 'react'
 
 export const AdminArticlesPage: React.FC = () => {
   const navigate = useNavigate()
+
+  const user = useArticleStore((s) => s.user)
+
+  useEffect(() => {
+    if (!user || user.length === 0) {
+      navigate('admin/login')
+    }
+  }, [user])
 
   const query = useArticleStore((s) => s.articleQuery)
   const { data: articles } = useArticles(query!)

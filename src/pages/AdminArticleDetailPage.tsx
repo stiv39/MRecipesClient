@@ -4,11 +4,20 @@ import { useNavigate, useParams } from 'react-router-dom'
 import useAddNewArticle from '../hooks/useAddNewArticle'
 import useArticle from '../hooks/useArticle'
 import useUpdateArticle from '../hooks/useUpdateArticle'
+import useArticleStore from '../store/store'
 
 export const AdminArticleDetailPage: React.FC = () => {
   const navigate = useNavigate()
 
   const { articleId } = useParams()
+
+  const user = useArticleStore((s) => s.user)
+
+  useEffect(() => {
+    if (!user || user.length === 0) {
+      navigate('admin/login')
+    }
+  }, [user])
 
   const { data, isLoading } = useArticle(articleId!)
 
@@ -84,11 +93,10 @@ export const AdminArticleDetailPage: React.FC = () => {
           <Grid item xs={12} marginTop={4}>
             <Typography>{'Postup'}</Typography>
             {steps.map((step, i) => (
-              <div style={{ display: 'flex', marginTop: 15 }}>
+              <div key={i + 100} style={{ display: 'flex', marginTop: 15 }}>
                 <TextField
                   placeholder=""
                   multiline
-                  key={i + 100}
                   minRows={5}
                   fullWidth
                   value={step}

@@ -31,6 +31,7 @@ export class ArticleService implements IArticleService {
 
   loadArticleDetails = async (id: string): Promise<ArticleDetails | null> => {
     try {
+      if (!id || id === '') return null
       const response = await axios.get(`${baseurl}/articles/${id}`)
       return response.data
     } catch (ex) {
