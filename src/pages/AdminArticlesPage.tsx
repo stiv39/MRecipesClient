@@ -28,7 +28,7 @@ export const AdminArticlesPage: React.FC = () => {
               <ArticleCard
                 key={article.id}
                 article={article}
-                imgUrl={`/assets/${article.image}.jpg`}
+                imgUrl={`/assets/${article.image === '' ? 'pozadie' : article.image}.jpg`}
                 handleClickAction={() => handleArticleSelect(article.id)}
               />
               <Button variant="contained" color="error" onClick={() => handleDeleteArticle(article.id)}>

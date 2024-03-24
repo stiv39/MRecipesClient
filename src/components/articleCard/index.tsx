@@ -16,7 +16,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import ShareIcon from '@mui/icons-material/Share'
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({
-  article: { author, title, description, category, body, dateAdded, id },
+  article: { author, title, dateAdded, id },
   imgUrl,
   handleClickAction,
 }: ArticleCardProps) => {
@@ -29,6 +29,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         border: '5px solid transparent',
         borderRadius: '20px',
         background: 'white',
+        cursor: 'pointer',
       }}
     >
       {/* <CardHeader
