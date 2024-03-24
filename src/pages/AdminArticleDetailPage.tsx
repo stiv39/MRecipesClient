@@ -14,7 +14,7 @@ export const AdminArticleDetailPage: React.FC = () => {
 
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
-  const [steps, setSteps] = useState<string>('')
+  const [steps, setSteps] = useState<string[]>([''])
   const [tags, setTags] = useState<string>('')
   const [ingredients, setIngredients] = useState<string>('')
 
@@ -34,7 +34,7 @@ export const AdminArticleDetailPage: React.FC = () => {
       setDescription(data.description)
       setTags(data.tags.join(','))
       setIngredients(data.ingredients.join(','))
-      setSteps(data.steps.join(','))
+      setSteps(data.steps)
     }
   }, [data])
 
@@ -43,7 +43,14 @@ export const AdminArticleDetailPage: React.FC = () => {
   }
 
   const handleEdit = () => {
-    update({ title: title, description: description, steps: steps, ingredients: ingredients, tags: tags, id: data?.id })
+    update({
+      title: title,
+      description: description,
+      steps: steps,
+      ingredients: ingredients,
+      tags: tags,
+      id: data?.id,
+    })
   }
 
   const goBack = () => navigate('/admin')
@@ -75,15 +82,32 @@ export const AdminArticleDetailPage: React.FC = () => {
           </Grid>
 
           <Grid item xs={12} marginTop={4}>
-            <Typography>{'Postup  (oddelit tromi pomlckami ---)'}</Typography>
-            <TextField
-              placeholder=""
-              multiline
-              minRows={10}
-              fullWidth
-              value={steps}
-              onChange={(e) => setSteps(e?.target.value)}
-            />
+            <Typography>{'Postup'}</Typography>
+            {steps.map((step, i) => (
+              <div style={{ display: 'flex', marginTop: 15 }}>
+                <TextField
+                  placeholder=""
+                  multiline
+                  key={i + 100}
+                  minRows={5}
+                  fullWidth
+                  value={step}
+                  onChange={(event) => {
+                    const newSteps = [...steps]
+                    newSteps[i] = event.target.value
+                    setSteps(newSteps)
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => setSteps([...steps.filter((_, index) => index !== i)])}
+                >
+                  Delete
+                </Button>
+              </div>
+            ))}
+            <Button onClick={() => setSteps([...steps, ''])}>Add step</Button>
           </Grid>
 
           <Grid item xs={12} marginTop={4}>

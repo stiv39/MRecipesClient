@@ -24,7 +24,7 @@ export type Article = {
 export type AddArticle = {
   title: string
   description: string
-  steps: string
+  steps: string[]
   tags: string
   ingredients: string
   id?: string
