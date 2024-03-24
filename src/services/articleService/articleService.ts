@@ -81,4 +81,14 @@ export class ArticleService implements IArticleService {
       return false
     }
   }
+
+  deleteArticleComment = async (commentId: string): Promise<boolean> => {
+    try {
+      const response = await axios.delete(`${baseurl}/articles/comment/${commentId}`)
+      return response.status === 204
+    } catch (ex) {
+      console.error('error while deleting comment', ex)
+      return false
+    }
+  }
 }

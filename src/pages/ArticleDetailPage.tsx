@@ -2,12 +2,16 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Breadcrumbs, Grid, Typography, Button, CircularProgress, Skeleton } from '@mui/material'
 import useArticle from '../hooks/useArticle'
 import { AddComment, CommentItem } from '../components'
+import useArticleStore from '../store/store'
+import useDeleteArticleComment from '../hooks/useDeleteArticleComment'
 
 export const ArticleDetailPage: React.FC = () => {
   const navigate = useNavigate()
   const { articleId } = useParams()
 
   const { data, isLoading } = useArticle(articleId!)
+  const user = useArticleStore((s) => s.user)
+  const { mutate } = useDeleteArticleComment(articleId!)
 
   return (
     <Grid container sx={{ textAlign: 'center' }}>
@@ -76,8 +80,15 @@ export const ArticleDetailPage: React.FC = () => {
             <Typography typography={'h6'} textAlign={'left'}>
               Komentáre
             </Typography>
-            {data?.articleComments.map((comment, index) => (
-              <CommentItem key={index + 300} text={comment.description} name={comment.name} date={comment.dateAdded} />
+            {data?.articleComments.map((comment) => (
+              <Box key={comment.id} sx={{ display: 'flex' }}>
+                <CommentItem key={comment.id} text={comment.description} name={comment.name} date={comment.dateAdded} />
+                {user && user !== '' && (
+                  <Button onClick={() => mutate(comment.id)} color="error">
+                    Delete
+                  </Button>
+                )}
+              </Box>
             ))}
           </Grid>
           <Grid item xs={12} marginTop={10}>

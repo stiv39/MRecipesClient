@@ -6,6 +6,7 @@ export type IArticleService = {
   addNewArticle(article: AddArticle): Promise<boolean>
   updateArticle(article: AddArticle): Promise<boolean>
   addArticleComment(newComment: AddArticleComment): Promise<boolean>
+  deleteArticleComment(commentId: string): Promise<boolean>
 }
 
 export type ArticleResponse = {
@@ -49,6 +50,7 @@ export type ArticleDetails = {
 }
 
 export type ArticleComment = {
+  id: string
   name: string
   description: string
   dateAdded: string
