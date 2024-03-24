@@ -1,5 +1,5 @@
 import { ArticleQuery } from '../../store/store'
-import { categoriesMock, articleDetailsMock } from './mocks'
+import { categoriesMock } from './mocks'
 import { Article, ArticleDetails, Tag, IArticleService, AddArticleComment, AddArticle } from './types'
 import axios from 'axios'
 
@@ -15,7 +15,6 @@ export class ArticleService implements IArticleService {
       return response.data.items
     } catch (ex) {
       console.error(ex)
-
       return []
     }
   }
@@ -36,17 +35,25 @@ export class ArticleService implements IArticleService {
       return response.data
     } catch (ex) {
       console.error(ex)
-      return articleDetailsMock(id)
+      return null
     }
   }
 
   addNewArticle = async (article: AddArticle): Promise<boolean> => {
     try {
       const response = await axios.post(`${baseurl}/articles`, { ...article })
-      if (response.data) {
-        return true
-      }
+      return response.data ? true : false
+    } catch (ex) {
+      console.error(ex)
       return false
+    }
+  }
+
+  updateArticle = async (article: AddArticle): Promise<boolean> => {
+    try {
+      const response = await axios.put(`${baseurl}/articles`, { ...article })
+
+      return response.status == 200
     } catch (ex) {
       console.error(ex)
       return false
@@ -56,10 +63,8 @@ export class ArticleService implements IArticleService {
   deleteArticle = async (articleId: string): Promise<boolean> => {
     try {
       const response = await axios.delete(`${baseurl}/articles/${articleId}`)
-      if (response.status === 204) {
-        return true
-      }
-      return false
+
+      return response.status === 204
     } catch (ex) {
       console.error(ex)
       return false

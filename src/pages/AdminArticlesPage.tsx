@@ -12,6 +12,7 @@ export const AdminArticlesPage: React.FC = () => {
   const { data: articles } = useArticles(query!)
   const { mutate } = useDeleteArticle()
   const goBack = () => navigate('/admin')
+  const handleArticleSelect = (articleId: string) => navigate(`/admin/articles/${articleId}`)
   const handleDeleteArticle = (articleId: string) => mutate(articleId)
 
   return (
@@ -28,7 +29,7 @@ export const AdminArticlesPage: React.FC = () => {
                 key={article.id}
                 article={article}
                 imgUrl={`/assets/${article.image}.jpg`}
-                handleClickAction={() => {}}
+                handleClickAction={() => handleArticleSelect(article.id)}
               />
               <Button variant="contained" color="error" onClick={() => handleDeleteArticle(article.id)}>
                 Delete

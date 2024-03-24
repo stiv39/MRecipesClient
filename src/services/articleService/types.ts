@@ -4,6 +4,7 @@ export type IArticleService = {
   loadArticles(query: ArticleQuery): Promise<Article[]>
   loadCategories(): Promise<Tag[]>
   addNewArticle(article: AddArticle): Promise<boolean>
+  updateArticle(article: AddArticle): Promise<boolean>
   addArticleComment(newComment: AddArticleComment): Promise<boolean>
 }
 
@@ -26,6 +27,8 @@ export type AddArticle = {
   steps: string
   tags: string
   ingredients: string
+  id?: string
+  image?: string
 }
 
 export type Tag = {
