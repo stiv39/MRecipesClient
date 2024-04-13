@@ -9,20 +9,20 @@ import { useEffect } from 'react'
 export const AdminArticlesPage: React.FC = () => {
   const navigate = useNavigate()
 
-  const user = useArticleStore((s) => s.user)
+  const token = useArticleStore((s) => s.token)
 
   useEffect(() => {
-    if (!user || user.length === 0) {
+    if (!token || token.length === 0) {
       navigate('admin/login')
     }
-  }, [user])
+  }, [token])
 
   const query = useArticleStore((s) => s.articleQuery)
   const { data: articles } = useArticles(query!)
   const { mutate } = useDeleteArticle()
   const goBack = () => navigate('/admin')
   const handleArticleSelect = (articleId: string) => navigate(`/admin/articles/${articleId}`)
-  const handleDeleteArticle = (articleId: string) => mutate(articleId)
+  const handleDeleteArticle = (articleId: string) => mutate({ articleId, token })
 
   return (
     <Grid container>

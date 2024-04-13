@@ -8,7 +8,7 @@ const useAddNewArticle = (article: AddArticle) => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (article: AddArticle) => service.addNewArticle(article),
+    mutationFn: ({ article, token }: { article: AddArticle; token: string }) => service.addNewArticle(article, token),
     onSuccess: () => {
       queryClient.invalidateQueries(['articles', article])
     },

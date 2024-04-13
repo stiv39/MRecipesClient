@@ -40,9 +40,13 @@ export class ArticleService implements IArticleService {
     }
   }
 
-  addNewArticle = async (article: AddArticle): Promise<boolean> => {
+  addNewArticle = async (article: AddArticle, token: string): Promise<boolean> => {
     try {
-      const response = await axios.post(`${baseurl}/articles`, { ...article })
+      const response = await axios.post(
+        `${baseurl}/articles`,
+        { ...article },
+        { headers: { Authorization: 'Bearer ' + token } }
+      )
       return response.data ? true : false
     } catch (ex) {
       console.error(ex)
@@ -50,9 +54,13 @@ export class ArticleService implements IArticleService {
     }
   }
 
-  updateArticle = async (article: AddArticle): Promise<boolean> => {
+  updateArticle = async (article: AddArticle, token: string): Promise<boolean> => {
     try {
-      const response = await axios.put(`${baseurl}/articles`, { ...article })
+      const response = await axios.put(
+        `${baseurl}/articles`,
+        { ...article },
+        { headers: { Authorization: 'Bearer ' + token } }
+      )
 
       return response.status == 200
     } catch (ex) {
@@ -61,9 +69,11 @@ export class ArticleService implements IArticleService {
     }
   }
 
-  deleteArticle = async (articleId: string): Promise<boolean> => {
+  deleteArticle = async (articleId: string, token: string): Promise<boolean> => {
     try {
-      const response = await axios.delete(`${baseurl}/articles/${articleId}`)
+      const response = await axios.delete(`${baseurl}/articles/${articleId}`, {
+        headers: { Authorization: 'Bearer ' + token },
+      })
 
       return response.status === 204
     } catch (ex) {
@@ -82,9 +92,11 @@ export class ArticleService implements IArticleService {
     }
   }
 
-  deleteArticleComment = async (commentId: string): Promise<boolean> => {
+  deleteArticleComment = async (commentId: string, token: string): Promise<boolean> => {
     try {
-      const response = await axios.delete(`${baseurl}/articles/comment/${commentId}`)
+      const response = await axios.delete(`${baseurl}/articles/comment/${commentId}`, {
+        headers: { Authorization: 'Bearer ' + token },
+      })
       return response.status === 204
     } catch (ex) {
       console.error('error while deleting comment', ex)

@@ -7,7 +7,7 @@ const useDeleteArticle = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (articleId: string) => service.deleteArticle(articleId),
+    mutationFn: ({ articleId, token }: { articleId: string; token: string }) => service.deleteArticle(articleId, token),
     onSuccess: () => {
       queryClient.invalidateQueries(['articles'])
     },

@@ -11,13 +11,13 @@ export const AdminArticleDetailPage: React.FC = () => {
 
   const { articleId } = useParams()
 
-  const user = useArticleStore((s) => s.user)
+  const token = useArticleStore((s) => s.token) ?? ''
 
   useEffect(() => {
-    if (!user || user.length === 0) {
+    if (!token || token.length === 0) {
       navigate('admin/login')
     }
-  }, [user])
+  }, [token])
 
   const { data, isLoading } = useArticle(articleId!)
 
@@ -27,7 +27,7 @@ export const AdminArticleDetailPage: React.FC = () => {
   const [tags, setTags] = useState<string>('')
   const [ingredients, setIngredients] = useState<string>('')
 
-  const { mutate } = useAddNewArticle({
+  const { mutate: create } = useAddNewArticle({
     title: title,
     description: description,
     steps: steps,
@@ -48,17 +48,23 @@ export const AdminArticleDetailPage: React.FC = () => {
   }, [data])
 
   const handleSubmit = () => {
-    mutate({ title: title, description: description, steps: steps, ingredients: ingredients, tags: tags })
+    create({
+      article: { title: title, description: description, steps: steps, ingredients: ingredients, tags: tags },
+      token,
+    })
   }
 
   const handleEdit = () => {
     update({
-      title: title,
-      description: description,
-      steps: steps,
-      ingredients: ingredients,
-      tags: tags,
-      id: data?.id,
+      article: {
+        title: title,
+        description: description,
+        steps: steps,
+        ingredients: ingredients,
+        tags: tags,
+        id: data?.id,
+      },
+      token,
     })
   }
 

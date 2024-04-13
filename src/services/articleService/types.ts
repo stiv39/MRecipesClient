@@ -3,10 +3,11 @@ import { ArticleQuery } from '../../store/store'
 export type IArticleService = {
   loadArticles(query: ArticleQuery): Promise<Article[]>
   loadCategories(): Promise<Tag[]>
-  addNewArticle(article: AddArticle): Promise<boolean>
-  updateArticle(article: AddArticle): Promise<boolean>
+  addNewArticle(article: AddArticle, token: string): Promise<boolean>
+  updateArticle(article: AddArticle, token: string): Promise<boolean>
+  deleteArticle(articleId: string, token: string): Promise<boolean>
   addArticleComment(newComment: AddArticleComment): Promise<boolean>
-  deleteArticleComment(commentId: string): Promise<boolean>
+  deleteArticleComment(commentId: string, token: string): Promise<boolean>
 }
 
 export type ArticleResponse = {

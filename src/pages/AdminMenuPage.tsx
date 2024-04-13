@@ -6,18 +6,20 @@ import { useEffect } from 'react'
 export const AdminMenuPage: React.FC = () => {
   const navigate = useNavigate()
 
-  const user = useArticleStore((s) => s.user)
+  const token = useArticleStore((s) => s.token)
 
   useEffect(() => {
-    if (!user || user.length === 0) {
-      navigate('admin/login')
+    if (!token || token.length === 0) {
+      navigate('/admin/login')
     }
-  }, [user])
+  }, [token])
 
   const goToNewArticle = () => navigate('/admin/new')
   const goToArticles = () => navigate('/admin/articles')
 
-  return (
+  return !token || token.length === 0 ? (
+    <div>no access</div>
+  ) : (
     <Grid container>
       <Grid item xs={12}>
         <Typography textAlign={'center'} variant="h2">

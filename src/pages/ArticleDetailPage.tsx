@@ -10,7 +10,7 @@ export const ArticleDetailPage: React.FC = () => {
   const { articleId } = useParams()
 
   const { data, isLoading } = useArticle(articleId!)
-  const user = useArticleStore((s) => s.user)
+  const token = useArticleStore((s) => s.token)
   const { mutate } = useDeleteArticleComment(articleId!)
 
   return (
@@ -83,7 +83,7 @@ export const ArticleDetailPage: React.FC = () => {
             {data?.articleComments.map((comment) => (
               <Box key={comment.id} sx={{ display: 'flex' }}>
                 <CommentItem key={comment.id} text={comment.description} name={comment.name} date={comment.dateAdded} />
-                {user && user !== '' && (
+                {token && token !== '' && (
                   <Button onClick={() => mutate(comment.id)} color="error">
                     Delete
                   </Button>

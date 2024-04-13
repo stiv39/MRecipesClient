@@ -9,8 +9,8 @@ type ArticleStore = {
   articleQuery: ArticleQuery
   setSearchTerm: (searchText: string) => void
   setTags: (tag: string[]) => void
-  user?: string
-  setUser: (user: string) => void
+  token?: string
+  setToken: (token: string) => void
 }
 
 const useArticleStore = create<ArticleStore>((set) => ({
@@ -21,7 +21,7 @@ const useArticleStore = create<ArticleStore>((set) => ({
     set((store: ArticleStore) => ({
       articleQuery: { ...store.articleQuery, tags },
     })),
-  setUser: (user: string) => set((store: ArticleStore) => ({ ...store, user })),
+  setToken: (token: string) => set((store: ArticleStore) => ({ ...store, token })),
 }))
 
 export default useArticleStore
