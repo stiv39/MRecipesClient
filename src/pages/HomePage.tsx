@@ -68,7 +68,7 @@ export const HomePage: React.FC = () => {
                 <ArticleCard
                   key={article.id}
                   article={article}
-                  imgUrl={`/assets/${article.image === '' ? 'pozadie' : article.image}.jpg`}
+                  imgUrl={`data:image/jpeg;base64,${article.image}`}
                   handleClickAction={handleArticleSelection}
                 />
               </Grid>

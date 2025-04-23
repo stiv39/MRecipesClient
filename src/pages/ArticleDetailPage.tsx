@@ -33,44 +33,32 @@ export const ArticleDetailPage: React.FC = () => {
             </Breadcrumbs>
           </Grid>
           <Grid item xs={12}>
-            <Typography variant="h3" textAlign={'left'}>
-              {data?.title}
-            </Typography>
+            <Typography variant="h3">{data?.title}</Typography>
           </Grid>
-
-          <Grid container textAlign={'left'}>
-            <Grid item xs={12} lg={5}>
-              <img src={`/assets/${data?.image}.jpg`} alt="imagefood" style={{ maxHeight: '300px' }} />
-            </Grid>
-
-            <Grid item xs={12} lg={5}>
-              <Typography>{data?.description}</Typography>
+          <Grid container>
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+              <img src={`data:image/jpeg;base64,${data.image}`} alt="imagefood" style={{ margin: 'auto' }} />
             </Grid>
           </Grid>
 
-          <Grid item xs={12} sm={12} sx={{ marginTop: '30px' }}>
-            <Typography sx={{ textAlign: 'left' }}>
+          <Grid item xs={12} sx={{ marginTop: '30px' }}>
+            <Typography>
               <b>SUROVINY</b>
             </Typography>
-            <Box>
-              <ul>
-                {data?.ingredients.map((ingredient, index) => (
-                  <li key={index + 100} style={{ textAlign: 'left' }}>
-                    {ingredient}
-                  </li>
-                ))}
-              </ul>
+            <Box sx={{ textAlign: 'center' }}>
+              <span>{data?.ingredients.map((ingredient, index) => <li key={index + 100}>{ingredient}</li>)}</span>
             </Box>
           </Grid>
           <Grid item xs={12} sx={{ marginTop: '30px' }}>
-            <Typography textAlign={'left'}>
+            <Typography>
               <b>POSTUP</b>
             </Typography>
             {data?.steps
               ? data.steps.map((step, i) => (
-                  <Box key={i + 200}>
-                    <Typography textAlign={'left'} marginTop={5}>
-                      <b>{`${i + 1}.`}</b> {step}
+                  <Box key={i + step}>
+                    <Typography marginTop={5}>
+                      <b style={{ marginRight: '2px' }}>{`${i + 1}.`}</b>
+                      <span>{step}</span>
                     </Typography>
                   </Box>
                 ))

@@ -4,10 +4,16 @@ import useArticleStore from '../store/store'
 import useArticles from '../hooks/useArticles'
 import { ArticleCard } from '../components'
 import useDeleteArticle from '../hooks/useDeleteArticle'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { ConfirmModal } from '../components/confirmModal'
+import { Article } from '../services/articleService/types'
 
 export const AdminArticlesPage: React.FC = () => {
   const navigate = useNavigate()
+
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [articleId, setArticleId] = useState<string>('')
+  const [articleName, setArticleName] = useState<string>('')
 
   const token = useArticleStore((s) => s.token)
 
@@ -17,12 +23,18 @@ export const AdminArticlesPage: React.FC = () => {
     }
   }, [token])
 
+  const setArticle = (article: Article) => {
+    setArticleId(article.id)
+    setArticleName(article.title)
+    setIsOpen(true)
+  }
+
   const query = useArticleStore((s) => s.articleQuery)
   const { data: articles } = useArticles(query!)
   const { mutate } = useDeleteArticle()
   const goBack = () => navigate('/admin')
   const handleArticleSelect = (articleId: string) => navigate(`/admin/articles/${articleId}`)
-  const handleDeleteArticle = (articleId: string) => mutate({ articleId, token })
+  const handleDeleteArticle = () => mutate({ articleId, token })
 
   return (
     <Grid container>
@@ -37,14 +49,20 @@ export const AdminArticlesPage: React.FC = () => {
               <ArticleCard
                 key={article.id}
                 article={article}
-                imgUrl={`/assets/${article.image === '' ? 'pozadie' : article.image}.jpg`}
+                imgUrl={`data:image/jpeg;base64,${article.image}`}
                 handleClickAction={() => handleArticleSelect(article.id)}
               />
-              <Button variant="contained" color="error" onClick={() => handleDeleteArticle(article.id)}>
+              <Button variant="contained" color="error" onClick={() => setArticle(article)}>
                 Delete
               </Button>
             </Grid>
           ))}
+          <ConfirmModal
+            isOpen={isOpen}
+            articleName={articleName}
+            onSubmit={handleDeleteArticle}
+            handleOpen={(open) => setIsOpen(open)}
+          />
         </Grid>
       </Grid>
     </Grid>

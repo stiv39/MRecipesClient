@@ -44,7 +44,7 @@ export class ArticleService implements IArticleService {
     try {
       const response = await axios.post(
         `${baseurl}/articles`,
-        { ...article },
+        article.image,
         { headers: { Authorization: 'Bearer ' + token } }
       )
       return response.data ? true : false
@@ -58,7 +58,7 @@ export class ArticleService implements IArticleService {
     try {
       const response = await axios.put(
         `${baseurl}/articles`,
-        { ...article },
+        article.image,
         { headers: { Authorization: 'Bearer ' + token } }
       )
 
