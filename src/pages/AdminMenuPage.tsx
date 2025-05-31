@@ -1,12 +1,11 @@
 import { Button, Grid, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import useArticleStore from '../store/store'
 import { useEffect } from 'react'
 
 export const AdminMenuPage: React.FC = () => {
   const navigate = useNavigate()
 
-  const token = useArticleStore((s) => s.token)
+  const token = localStorage.getItem('mrecipestoken')
 
   useEffect(() => {
     if (!token || token.length === 0) {

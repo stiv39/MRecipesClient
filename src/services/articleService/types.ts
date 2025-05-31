@@ -30,7 +30,7 @@ export type AddArticle = {
   tags: string
   ingredients: string
   id?: string
-  image?: string
+  image?: FormData
 }
 
 export type Tag = {

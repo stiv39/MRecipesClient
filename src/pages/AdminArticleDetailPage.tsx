@@ -1,5 +1,5 @@
-import { Button, Grid, TextField, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { Button, Grid, TextField, Typography, Input } from '@mui/material'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useAddNewArticle from '../hooks/useAddNewArticle'
 import useArticle from '../hooks/useArticle'
@@ -11,13 +11,14 @@ export const AdminArticleDetailPage: React.FC = () => {
 
   const { articleId } = useParams()
 
-  const token = useArticleStore((s) => s.token) ?? ''
+  const token = localStorage.getItem('mrecipestoken')
 
   useEffect(() => {
     if (!token || token.length === 0) {
-      navigate('admin/login')
+      navigate('/admin/login')
     }
   }, [token])
+
 
   const { data, isLoading } = useArticle(articleId!)
 
@@ -26,13 +27,14 @@ export const AdminArticleDetailPage: React.FC = () => {
   const [steps, setSteps] = useState<string[]>([''])
   const [tags, setTags] = useState<string>('')
   const [ingredients, setIngredients] = useState<string>('')
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
   const { mutate: create } = useAddNewArticle({
     title: title,
     description: description,
     steps: steps,
     ingredients: ingredients,
-    tags: tags,
+    tags: tags
   })
 
   const { mutate: update } = useUpdateArticle()
@@ -47,14 +49,50 @@ export const AdminArticleDetailPage: React.FC = () => {
     }
   }, [data])
 
+  useEffect(() => {
+    console.log('file path: ', setSelectedFile)
+  }, [setSelectedFile])
+
   const handleSubmit = () => {
+    let formData;
+    formData = new FormData();
+
+    formData.append('dto', JSON.stringify({ 
+        title: title, 
+        description: description, 
+        steps: steps, 
+        ingredients: ingredients, 
+        tags: tags 
+      }));
+
+
+    if (selectedFile != null) {
+        formData.append('image', selectedFile);
+      }
+
     create({
-      article: { title: title, description: description, steps: steps, ingredients: ingredients, tags: tags },
+      article: { title: title, description: description, steps: steps, ingredients: ingredients, tags: tags, image: formData },
       token,
     })
   }
 
   const handleEdit = () => {
+    let formData;
+    formData = new FormData();
+    formData.append('dto', JSON.stringify({ 
+        id: data?.id,
+        title: title, 
+        description: description, 
+        steps: steps, 
+        ingredients: ingredients, 
+        tags: tags 
+      }));
+
+
+    if (selectedFile != null) {
+        formData.append('image', selectedFile);
+      }
+    
     update({
       article: {
         title: title,
@@ -63,9 +101,18 @@ export const AdminArticleDetailPage: React.FC = () => {
         ingredients: ingredients,
         tags: tags,
         id: data?.id,
+        image: formData
       },
       token,
     })
+  }
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) =>
+  {
+    if(e.target.files)
+    {
+      setSelectedFile(e.target.files[0])
+    }
   }
 
   const goBack = () => navigate('/admin')
@@ -138,6 +185,10 @@ export const AdminArticleDetailPage: React.FC = () => {
               onChange={(e) => setIngredients(e?.target.value)}
               multiline
             />
+          </Grid>
+          <Grid item xs={12} marginTop={4}>
+          <Input type='file' onChange={handleFileChange} />
+          <p>{selectedFile?.name}</p>
           </Grid>
           <Grid item xs={12} marginTop={4}>
             {articleId && articleId.length > 0 ? (
