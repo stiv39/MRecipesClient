@@ -8,6 +8,7 @@ import { AdminMenuPage } from '../pages/AdminMenuPage'
 import { AdminArticlesPage } from '../pages/AdminArticlesPage'
 import { LoginPage } from '../pages/LoginPage'
 import AdminRoute from './AdminRoute'
+import { MainPage } from '../pages/MainPage'
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
       { path: 'admin/articles', element: <AdminArticlesPage /> },
       { path: 'admin/articles/:articleId', element: <AdminArticleDetailPage /> },
       { path: 'admin/login', element: <LoginPage /> },
+      { path: '/main', element: <MainPage /> }
     ],
   },
 ])

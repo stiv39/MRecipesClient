@@ -1,13 +1,13 @@
-import { AppBar, Box, Container, IconButton, Menu, MenuItem, Toolbar } from '@mui/material'
+import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useArticleStore from '../../store/store'
 import { DebounceInput } from '../debounceInput'
 
 export const NavigationBar: React.FC = () => {
-  const [anchorEl, setAnchorEl] = useState(null)
   const navigate = useNavigate()
+  const [anchorEl, setAnchorEl] = useState(null)
 
   const searchTerm = useArticleStore((s) => s.articleQuery.searchTerm)
   const setSearchTerm = useArticleStore((s) => s.setSearchTerm)
@@ -20,10 +20,28 @@ export const NavigationBar: React.FC = () => {
     setAnchorEl(null)
   }
 
+  const linkStyle = {
+  margin: "1rem",
+  textDecoration: "none",
+  color: 'black',
+};
+
   return (
     <AppBar position="static" style={{ background: 'white', boxShadow: 'none' }}>
-      <Container sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Toolbar disableGutters>
+      <Container component={'nav'} sx={{display: 'flex'}}>
+        <Stack direction="row" spacing={'30px'} sx={{ display: 'flex' }}>
+          <Button onClick={() => navigate('/main')}>
+            <Typography sx={{fontWeight: 'bold'}} color={'black'}>MRecipes</Typography>
+          </Button>
+          <Link style={linkStyle} to={'/'}>
+            <Typography sx={{fontWeight: 'bold'}}> Recepty</Typography>
+          </Link>
+          <Link style={linkStyle}  to={'/contact'}>
+            <Typography sx={{fontWeight: 'bold'}}>Kontakt</Typography>
+          </Link>
+        </Stack>
+             
+        {/* <Toolbar disableGutters>
           <Box style={{ display: 'flex', justifyContent: 'center' }}></Box>
 
           <Box style={{ marginRight: '20px' }}>
@@ -36,8 +54,8 @@ export const NavigationBar: React.FC = () => {
             </Menu>
           </Box>
           <DebounceInput value={searchTerm!} handleChange={setSearchTerm} />
-        </Toolbar>
-      </Container>
+        </Toolbar> */}
+      </Container>          
     </AppBar>
   )
 }
