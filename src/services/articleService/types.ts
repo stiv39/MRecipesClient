@@ -34,7 +34,9 @@ export type AddArticle = {
 }
 
 export type Tag = {
+  tagId: string,
   name: string
+  hasImage: boolean
 }
 
 export type ArticleDetails = {

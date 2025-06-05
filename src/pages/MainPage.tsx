@@ -1,6 +1,6 @@
 import React from 'react'
 import useArticleStore from '../store/store'
-import { Grid, Typography, Card, CardMedia, CardContent, Box } from '@mui/material'
+import { Grid, Typography, Box, Paper, Divider, Button } from '@mui/material'
 import useArticles from '../hooks/useArticles'
 import useCategories from '../hooks/useCategories'
 import { ArticleCard } from '../components'
@@ -17,15 +17,22 @@ export const MainPage: React.FC = () => {
     navigate(`/articles/${id}`)
   }
 
+   const handleCategorySelection = () => {
+    navigate(`/}`)
+  }
+
   const searchTerm = useArticleStore((s) => s.articleQuery.searchTerm)
   const setSearchTerm = useArticleStore((s) => s.setSearchTerm)
 
-  
   return (
     <Grid container justifyContent="center" textAlign={'center'}>
       <Grid item xs={12}>
         <Box sx={{ position: 'relative' }}>
-          <Box sx={{ backgroundImage: `url(/assets/pozadie5.jpg)`, backgroundSize: 'cover', borderRadius: '10px' }} height={'300px'}>
+          <Box
+            sx={{ backgroundImage: `url(/assets/pozadie5.jpg)`, backgroundSize: 'cover', borderRadius: '10px' }}
+            height={'300px'}
+          >
+            <Typography sx={{paddingTop: '20px', color: 'white', fontWeight: 'bold' }} variant="body1">Ahoj, ja som NIKA a toto sú moje recepty.</Typography>
             <Box
               sx={{
                 width: '500px',
@@ -48,26 +55,6 @@ export const MainPage: React.FC = () => {
         </Box>
       </Grid>
 
-      {/* <Grid item xs={12}>
-        <img src="/assets/pozadie3.jpg" alt="header" width={'1200px'} height={'300px'} style={{opacity: '0.2', zIndex: 0}}  />
-      </Grid> */}
-      {/* <Grid item xs={12} style={{ marginTop: '10px', marginBottom: '20px' }}>
-        <Typography variant="body1">Ahoj, ja som NIKA a tu su moje recepty.</Typography>
-      </Grid> */}
-
-      {/* <Grid item xs={5} sx={{ marginTop: '-100px' }}>
-        <Box sx={{ background: 'red', backgroundColor: 'white', height: '80px', borderRadius: 10 }}>
-          <TextField
-            sx={{ marginTop: '10px', paddingLeft: '20px', paddingRight: '20px', zIndex: 1000 }}
-            fullWidth
-            label="Search"
-            variant="standard"
-            InputProps={{ sx: { border: 'none' } }}
-            InputLabelProps={{ shrink: true, focused: true }}
-          />
-        </Box>
-      </Grid> */}
-
       <Grid
         container
         justifyContent={'center'}
@@ -77,22 +64,31 @@ export const MainPage: React.FC = () => {
         display={'flex'}
         flexDirection={'row'}
       >
-        {categories?.slice(0, 3)?.map((category, i) => (
-          <Grid item xs={4} key={i}>
-            <Card key={category.name}>
-              <CardMedia component={'img'} height={'200'} image="/assets/012.jpg" />
-              <CardContent>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  {category.name}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
+        <Grid item xs={12}>
+          <Typography textAlign={'left'} variant="h4">
+            Kategórie
+          </Typography>
+        </Grid>
+
+        {categories
+          ?.filter((x) => x.hasImage)
+          .slice(0, 4)
+          ?.map((category, i) => (
+            <Grid item xs={12} sm={6} md={3} lg={3} xl={3} key={i}>
+              <Box sx={{position: 'relative', cursor: 'pointer'}} onClick={handleCategorySelection} > 
+                <Box sx={{ backgroundImage: `url(/assets/categories/${category.tagId}.jpg)`, backgroundSize: 'cover', borderRadius: '10px', width: '200', height: '200px' }}>
+                  <Paper sx={{background: 'white', top: '80%', left: '5%', position:'absolute', padding: '5px'}}>
+                   <Typography variant="body1">{category.name}</Typography>
+                  </Paper>            
+                </Box>
+              </Box>
+            </Grid>
+          ))}
       </Grid>
 
-      <Grid item xs={12}>
-        <Typography textAlign={'left'} variant="body1">
+      <Grid sx={{marginTop: '50px'}} item xs={12}>
+        <Divider orientation="horizontal" component={'div'} sx={{ width: '100%', height: '2px' }} />
+        <Typography sx={{marginTop: '30px'}}  textAlign={'left'} variant="h4">
           Najnovšie
         </Typography>
       </Grid>
@@ -108,8 +104,18 @@ export const MainPage: React.FC = () => {
             />
           </Grid>
         ))}
-        {articles.length === 0 && <Typography marginTop={20}>No articles found</Typography>}
+        {articles.length === 0 && <Typography marginTop={20}>Ups! Žiadne recepty sa nenašli.</Typography>}
+      </Grid>
+
+      <Grid sx={{marginTop: '50px'}} item xs={12}>
+        <Divider orientation="horizontal" component={'div'} sx={{ width: '100%', height: '2px' }} />
+        <Paper sx={{height: '50px', display: 'flex', justifyContent: 'end', marginTop: '30px'}}>
+          <Button variant='contained' onClick={handleCategorySelection} color='secondary'>
+            <Typography>Všetky moje recepty nájdeš tu</Typography> 
+          </Button>
+        </Paper>
       </Grid>
     </Grid>
   )
 }
+         
