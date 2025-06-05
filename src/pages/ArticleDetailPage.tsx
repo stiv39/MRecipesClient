@@ -1,20 +1,14 @@
-import { useNavigate, useParams } from 'react-router-dom'
-import { Box, Breadcrumbs, Grid, Typography, Button, CircularProgress, Skeleton } from '@mui/material'
+import { useParams } from 'react-router-dom'
 import useArticle from '../hooks/useArticle'
+import { Box, CircularProgress, Grid, Paper, Skeleton, Stack, Typography } from '@mui/material'
 import { AddComment, CommentItem } from '../components'
-import useArticleStore from '../store/store'
-import useDeleteArticleComment from '../hooks/useDeleteArticleComment'
 
 export const ArticleDetailPage: React.FC = () => {
-  const navigate = useNavigate()
   const { articleId } = useParams()
-
   const { data, isLoading } = useArticle(articleId!)
-  const token = useArticleStore((s) => s.token)
-  const { mutate } = useDeleteArticleComment(articleId!)
 
   return (
-    <Grid container sx={{ textAlign: 'center' }}>
+    <Grid container component={'div'}>
       {isLoading ? (
         <Grid item xs={12}>
           <Skeleton variant="rounded" height={40} />
@@ -25,60 +19,78 @@ export const ArticleDetailPage: React.FC = () => {
       ) : (
         <>
           <Grid item xs={12}>
-            <Breadcrumbs aria-label="breadcrumb">
-              <Button variant="text" color="inherit" onClick={() => navigate('/')}>
-                Recepty
-              </Button>
-              <Typography color="text.primary">{data?.title}</Typography>
-            </Breadcrumbs>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h3">{data?.title}</Typography>
-          </Grid>
-          <Grid container>
-            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-              <img src={`data:image/jpeg;base64,${data.image}`} alt="imagefood" style={{ margin: 'auto' }} />
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12} sx={{ marginTop: '30px' }}>
-            <Typography>
-              <b>SUROVINY</b>
-            </Typography>
-            <Box sx={{ textAlign: 'center' }}>
-              <span>{data?.ingredients.map((ingredient, index) => <li key={index + 100}>{ingredient}</li>)}</span>
+            <Box sx={{ position: 'relative' }}>
+              <Box
+                sx={{
+                  height: '300px',
+                  backgroundImage: `url(/assets/pozadie2.jpg)`,
+                  backgroundSize: 'cover',
+                  borderRadius: '10px',
+                }}
+              >
+                <Paper sx={{ position: 'absolute', background: 'white', padding: '20px', top: '50%', left: '5%' }}>
+                  <Stack direction={'column'} spacing={'20px'}>
+                    <Typography variant="subtitle2">{data?.title}</Typography>
+                    <Typography variant="caption">{data?.tags}</Typography>
+                  </Stack>
+                </Paper>
+              </Box>
             </Box>
           </Grid>
-          <Grid item xs={12} sx={{ marginTop: '30px' }}>
-            <Typography>
-              <b>POSTUP</b>
-            </Typography>
-            {data?.steps
-              ? data.steps.map((step, i) => (
-                  <Box key={i + step}>
-                    <Typography marginTop={5}>
-                      <b style={{ marginRight: '2px' }}>{`${i + 1}.`}</b>
-                      <span>{step}</span>
-                    </Typography>
-                  </Box>
-                ))
-              : null}
+
+          <Grid item xs={12} sx={{ marginTop: '50px' }}>
+            <Paper>
+              <Typography variant="subtitle2">{data?.description}</Typography>
+            </Paper>
           </Grid>
-          <Grid item xs={12} marginTop={10}>
-            <Typography typography={'h6'} textAlign={'left'}>
-              Komentáre
-            </Typography>
-            {data?.articleComments.map((comment) => (
-              <Box key={comment.id} sx={{ display: 'flex' }}>
-                <CommentItem key={comment.id} text={comment.description} name={comment.name} date={comment.dateAdded} />
-                {token && token !== '' && (
-                  <Button onClick={() => mutate(comment.id)} color="error">
-                    Delete
-                  </Button>
-                )}
+
+          <Grid item xs={12} sx={{ marginTop: '50px', display: 'flex', justifyContent: 'flex-end' }}>
+            <Paper sx={{ padding: 5 }}>
+              <Typography sx={{ marginBottom: '20px' }} variant="h4">
+                {'Ingrediencie'}
+              </Typography>
+              {data?.ingredients.map((ingredient, index) => (
+                <Typography key={index * 60} variant="subtitle2">
+                  {ingredient}
+                </Typography>
+              ))}
+            </Paper>
+          </Grid>
+
+          <Grid item xs={12} sx={{ marginTop: '50px', display: 'flex', justifyContent: 'start' }}>
+            <Paper sx={{ padding: 5 }}>
+              <Typography sx={{ marginBottom: '20px' }} variant="h4">
+                {'Postup'}
+              </Typography>
+
+              <Box component={'div'} sx={{ display: 'flex' }}>
+                <Box>
+                  {data?.steps.map((step, index) => (
+                    <Box component={'div'} sx={{ marginTop: '20px' }} key={step.length}>
+                      <Typography variant="h5">{`KROK ${index + 1}`}</Typography>
+                      <Typography variant="subtitle1">{step}</Typography>
+                    </Box>
+                  ))}
+                </Box>
+                <img
+                  style={{ maxWidth: '400px', borderRadius: '10px' }}
+                  src={`data:image/jpeg;base64,${data?.image}`}
+                />
               </Box>
-            ))}
+            </Paper>
           </Grid>
+
+          <Grid item xs={12} sx={{ marginTop: '50px' }}>
+            <Paper sx={{ padding: 5 }}>
+              <Typography sx={{ marginBottom: '20px' }} variant="h4">
+                {'Komentáre'}
+              </Typography>
+              {data?.articleComments.map((comment) => (
+                <CommentItem key={comment.id} text={comment.description} name={comment.name} date={comment.dateAdded} />
+              ))}
+            </Paper>
+          </Grid>
+
           <Grid item xs={12} marginTop={10}>
             <AddComment id={'article-detail'} articleId={articleId!} />
           </Grid>
