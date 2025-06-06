@@ -18,7 +18,7 @@ export const MainPage: React.FC = () => {
   }
 
    const handleCategorySelection = () => {
-    navigate(`/`)
+    navigate(`/search`)
   }
 
   const searchTerm = useArticleStore((s) => s.articleQuery.searchTerm)

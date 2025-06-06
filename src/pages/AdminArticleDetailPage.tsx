@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import useAddNewArticle from '../hooks/useAddNewArticle'
 import useArticle from '../hooks/useArticle'
 import useUpdateArticle from '../hooks/useUpdateArticle'
-import useArticleStore from '../store/store'
 
 export const AdminArticleDetailPage: React.FC = () => {
   const navigate = useNavigate()
