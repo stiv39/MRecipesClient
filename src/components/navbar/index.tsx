@@ -15,10 +15,10 @@ export const NavigationBar: React.FC = () => {
     <AppBar position="static" style={{ background: 'white', boxShadow: 'none' }}>
       <Container component={'nav'} sx={{display: 'flex'}}>
         <Stack direction="row" spacing={'30px'} sx={{ display: 'flex' }}>
-          <Button onClick={() => navigate('/main')}>
+          <Button onClick={() => navigate('/')}>
             <Typography sx={{fontWeight: 'bold'}} color={'black'}>MRecipes</Typography>
           </Button>
-          <Link style={linkStyle} to={'/'}>
+          <Link style={linkStyle} to={'/search'}>
             <Typography sx={{fontWeight: 'bold'}}> Recepty</Typography>
           </Link>
           <Link style={linkStyle}  to={'/contact'}>

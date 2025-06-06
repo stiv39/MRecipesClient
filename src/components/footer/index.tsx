@@ -1,4 +1,7 @@
-import { Box, Grid, Stack, Typography, Divider } from '@mui/material'
+import { Grid, Stack, Typography, Divider, Icon } from '@mui/material'
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 
 export const Footer = () => {
   return (
@@ -6,21 +9,20 @@ export const Footer = () => {
       <Grid item xs={12}>
         <Divider orientation="horizontal" component={'div'} sx={{ width: '100%', height: '2px' }} />
       </Grid>
-      <Grid item xs={6} marginTop={'20px'}>
-        <Stack direction={'column'}>
-          <Typography>MRecipes</Typography>
-          <Typography>Text text text</Typography>
-          <Typography sx={{ marginTop: '20px' }}>MRecipes</Typography>
-        </Stack>
-      </Grid>
-      <Grid item xs={6} marginTop={'20px'}>
-        <Box display={'flex'} justifyContent={'flex-end'}>
-          <Stack direction={'column'}>
-            <Typography>MRecipes</Typography>
-            <Typography>Text text text</Typography>
-            <Typography sx={{ marginTop: '20px' }}>MRecipes</Typography>
+      <Grid item xs={12} marginTop={'20px'}>
+        <Stack spacing={'10px'} sx={{textAlign: 'center'}} direction={'column'}>
+          <Typography variant='subtitle2'>{'© MRecipes.sk'}</Typography>
+         
+          <Typography variant='subtitle2'>{'Sleduj ma'}</Typography>
+          <Stack justifyContent={'center'} spacing={'10px'} direction={'row'}>
+            <FacebookIcon  />
+            <InstagramIcon  />
+            <YouTubeIcon  />
           </Stack>
-        </Box>
+
+          <Typography variant='subtitle2' sx={{ marginTop: '20px' }}>{'Kontaktuj ma: info@mrecipes.sk'}</Typography>
+          <Typography variant='subtitle2'>{'Akékoľvek šírenie obsahu stránky alebo jej častí v akejkoľvek forme je zakázané a autorsky chránené.'}</Typography>
+        </Stack>
       </Grid>
     </Grid>
   )

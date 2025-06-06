@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     errorElement: <div>Unexpected error</div>,
     children: [
-      { index: true, element: <SearchPage /> },
+      { index: true, element: <MainPage /> },
       { path: 'articles/:articleId', element: <ArticleDetailPage /> },
       { path: 'contact', element: <ContactPage /> },
       { path: 'admin', element: <AdminRoute><AdminMenuPage /></AdminRoute> },
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
       { path: 'admin/articles', element: <AdminArticlesPage /> },
       { path: 'admin/articles/:articleId', element: <AdminArticleDetailPage /> },
       { path: 'admin/login', element: <LoginPage /> },
-      { path: 'main', element: <MainPage /> },
+      { path: 'search', element: <SearchPage /> },
     ],
   },
 ])
