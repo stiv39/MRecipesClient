@@ -21,9 +21,6 @@ export const NavigationBar: React.FC = () => {
           <Link style={linkStyle} to={'/search'}>
             <Typography sx={{fontWeight: 'bold'}}> Recepty</Typography>
           </Link>
-          <Link style={linkStyle}  to={'/contact'}>
-            <Typography sx={{fontWeight: 'bold'}}>Kontakt</Typography>
-          </Link>
         </Stack>
       </Container>          
     </AppBar>
