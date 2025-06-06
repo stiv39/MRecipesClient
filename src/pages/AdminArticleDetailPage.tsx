@@ -1,9 +1,10 @@
-import { Button, Grid, TextField, Typography, Input } from '@mui/material'
+import { Button, Grid, TextField, Typography, Input, Box, Checkbox, Stack } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useAddNewArticle from '../hooks/useAddNewArticle'
 import useArticle from '../hooks/useArticle'
 import useUpdateArticle from '../hooks/useUpdateArticle'
+import useCategories from '../hooks/useCategories'
 
 export const AdminArticleDetailPage: React.FC = () => {
   const navigate = useNavigate()
@@ -18,13 +19,13 @@ export const AdminArticleDetailPage: React.FC = () => {
     }
   }, [token])
 
-
   const { data, isLoading } = useArticle(articleId!)
+  const { data: categories } = useCategories()
 
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
   const [steps, setSteps] = useState<string[]>([''])
-  const [tags, setTags] = useState<string>('')
+  const [tags, setTags] = useState<string[]>([])
   const [ingredients, setIngredients] = useState<string>('')
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
@@ -33,7 +34,7 @@ export const AdminArticleDetailPage: React.FC = () => {
     description: description,
     steps: steps,
     ingredients: ingredients,
-    tags: tags
+    tags: tags,
   })
 
   const { mutate: update } = useUpdateArticle()
@@ -42,7 +43,7 @@ export const AdminArticleDetailPage: React.FC = () => {
     if (data) {
       setTitle(data.title)
       setDescription(data.description)
-      setTags(data.tags.join(','))
+      setTags(data.tags)
       setIngredients(data.ingredients.join(','))
       setSteps(data.steps)
     }
@@ -53,45 +54,56 @@ export const AdminArticleDetailPage: React.FC = () => {
   }, [setSelectedFile])
 
   const handleSubmit = () => {
-    let formData;
-    formData = new FormData();
+    let formData
+    formData = new FormData()
 
-    formData.append('dto', JSON.stringify({ 
-        title: title, 
-        description: description, 
-        steps: steps, 
-        ingredients: ingredients, 
-        tags: tags 
-      }));
-
+    formData.append(
+      'dto',
+      JSON.stringify({
+        title: title,
+        description: description,
+        steps: steps,
+        ingredients: ingredients,
+        tags: tags,
+      })
+    )
 
     if (selectedFile != null) {
-        formData.append('image', selectedFile);
-      }
+      formData.append('image', selectedFile)
+    }
 
     create({
-      article: { title: title, description: description, steps: steps, ingredients: ingredients, tags: tags, image: formData },
+      article: {
+        title: title,
+        description: description,
+        steps: steps,
+        ingredients: ingredients,
+        tags: tags,
+        image: formData,
+      },
       token,
     })
   }
 
   const handleEdit = () => {
-    let formData;
-    formData = new FormData();
-    formData.append('dto', JSON.stringify({ 
+    let formData
+    formData = new FormData()
+    formData.append(
+      'dto',
+      JSON.stringify({
         id: data?.id,
-        title: title, 
-        description: description, 
-        steps: steps, 
-        ingredients: ingredients, 
-        tags: tags 
-      }));
-
+        title: title,
+        description: description,
+        steps: steps,
+        ingredients: ingredients,
+        tags: tags,
+      })
+    )
 
     if (selectedFile != null) {
-        formData.append('image', selectedFile);
-      }
-    
+      formData.append('image', selectedFile)
+    }
+
     update({
       article: {
         title: title,
@@ -100,16 +112,14 @@ export const AdminArticleDetailPage: React.FC = () => {
         ingredients: ingredients,
         tags: tags,
         id: data?.id,
-        image: formData
+        image: formData,
       },
       token,
     })
   }
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) =>
-  {
-    if(e.target.files)
-    {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
       setSelectedFile(e.target.files[0])
     }
   }
@@ -171,8 +181,15 @@ export const AdminArticleDetailPage: React.FC = () => {
           </Grid>
 
           <Grid item xs={12} marginTop={4}>
-            <Typography>{'Tags (oddelit ciarkou)'}</Typography>
-            <TextField placeholder="" fullWidth value={tags} onChange={(e) => setTags(e?.target.value)} />
+            <Typography>{'Tags'}</Typography>
+            <Stack direction={'row'} spacing={'20px'}>
+              {categories?.map((x) => (
+                <Box component={'div'}>
+                  <Typography variant="subtitle1">{x.name}</Typography>
+                  <Checkbox checked={tags.includes(x.name)} value={x.name} onChange={(e) => setTags([...tags, e.target.value])}/>
+                </Box>
+              ))}
+            </Stack>
           </Grid>
 
           <Grid item xs={12} marginTop={4}>
@@ -186,8 +203,8 @@ export const AdminArticleDetailPage: React.FC = () => {
             />
           </Grid>
           <Grid item xs={12} marginTop={4}>
-          <Input type='file' onChange={handleFileChange} />
-          <p>{selectedFile?.name}</p>
+            <Input type="file" onChange={handleFileChange} />
+            <p>{selectedFile?.name}</p>
           </Grid>
           <Grid item xs={12} marginTop={4}>
             {articleId && articleId.length > 0 ? (

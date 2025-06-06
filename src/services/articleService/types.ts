@@ -27,7 +27,7 @@ export type AddArticle = {
   title: string
   description: string
   steps: string[]
-  tags: string
+  tags: string[]
   ingredients: string
   id?: string
   image?: FormData
