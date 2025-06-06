@@ -1,43 +1,28 @@
-import { AppBar, Box, Container, IconButton, Menu, MenuItem, Toolbar } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import useArticleStore from '../../store/store'
-import { DebounceInput } from '../debounceInput'
+import { AppBar, Button, Container, Stack, Typography } from '@mui/material'
+import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 export const NavigationBar: React.FC = () => {
-  const [anchorEl, setAnchorEl] = useState(null)
   const navigate = useNavigate()
 
-  const searchTerm = useArticleStore((s) => s.articleQuery.searchTerm)
-  const setSearchTerm = useArticleStore((s) => s.setSearchTerm)
-
-  const handleMenuOpen = (event: any) => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  const handleMenuClose = () => {
-    setAnchorEl(null)
-  }
+  const linkStyle = {
+  margin: "1rem",
+  textDecoration: "none",
+  color: 'black',
+};
 
   return (
     <AppBar position="static" style={{ background: 'white', boxShadow: 'none' }}>
-      <Container sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Toolbar disableGutters>
-          <Box style={{ display: 'flex', justifyContent: 'center' }}></Box>
-
-          <Box style={{ marginRight: '20px' }}>
-            <IconButton edge="end" style={{ color: 'black' }} aria-label="menu" onClick={handleMenuOpen}>
-              <MenuIcon />
-            </IconButton>
-            <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleMenuClose}>
-              <MenuItem onClick={() => navigate('/')}>RECEPTY</MenuItem>
-              <MenuItem onClick={() => navigate('/contact')}>KONTAKT</MenuItem>
-            </Menu>
-          </Box>
-          <DebounceInput value={searchTerm!} handleChange={setSearchTerm} />
-        </Toolbar>
-      </Container>
+      <Container component={'nav'} sx={{display: 'flex'}}>
+        <Stack direction="row" spacing={'30px'} sx={{ display: 'flex' }}>
+          <Button onClick={() => navigate('/')}>
+            <Typography sx={{fontWeight: 'bold'}} color={'black'}>MRecipes</Typography>
+          </Button>
+          <Link style={linkStyle} to={'/search'}>
+            <Typography sx={{fontWeight: 'bold'}}> Recepty</Typography>
+          </Link>
+        </Stack>
+      </Container>          
     </AppBar>
   )
 }

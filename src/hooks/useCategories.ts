@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { ArticleService } from '../services/articleService/articleService'
-import { categoriesMock } from '../services/articleService/mocks'
 
-var service = new ArticleService()
+const service = new ArticleService()
 
 const useArticles = () =>
   useQuery({

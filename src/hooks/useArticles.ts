@@ -3,7 +3,7 @@ import { ArticleService } from '../services/articleService/articleService'
 import { articlesMock } from '../services/articleService/mocks'
 import { ArticleQuery } from '../store/store'
 
-var service = new ArticleService()
+const service = new ArticleService()
 
 const useArticles = (query: ArticleQuery) =>
   useQuery({

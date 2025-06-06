@@ -4,18 +4,17 @@ import { useNavigate, useParams } from 'react-router-dom'
 import useAddNewArticle from '../hooks/useAddNewArticle'
 import useArticle from '../hooks/useArticle'
 import useUpdateArticle from '../hooks/useUpdateArticle'
-import useArticleStore from '../store/store'
 
 export const AdminArticleDetailPage: React.FC = () => {
   const navigate = useNavigate()
 
   const { articleId } = useParams()
 
-  const token = useArticleStore((s) => s.token) ?? ''
+  const token = localStorage.getItem('mrecipestoken')
 
   useEffect(() => {
     if (!token || token.length === 0) {
-      navigate('admin/login')
+      navigate('/admin/login')
     }
   }, [token])
 
@@ -55,12 +54,20 @@ export const AdminArticleDetailPage: React.FC = () => {
 
   const handleSubmit = () => {
     let formData;
-    if(selectedFile)
-    {
-      formData = new FormData();
-      formData.append('dto', JSON.stringify({ title: title, description: description, steps: steps, ingredients: ingredients, tags: tags }))
-      formData.append('image', selectedFile);
-    }
+    formData = new FormData();
+
+    formData.append('dto', JSON.stringify({ 
+        title: title, 
+        description: description, 
+        steps: steps, 
+        ingredients: ingredients, 
+        tags: tags 
+      }));
+
+
+    if (selectedFile != null) {
+        formData.append('image', selectedFile);
+      }
 
     create({
       article: { title: title, description: description, steps: steps, ingredients: ingredients, tags: tags, image: formData },
@@ -70,12 +77,20 @@ export const AdminArticleDetailPage: React.FC = () => {
 
   const handleEdit = () => {
     let formData;
-    if(selectedFile)
-    {
-      formData = new FormData();
-      formData.append('dto', JSON.stringify({ id: data?.id, title: title, description: description, steps: steps, ingredients: ingredients, tags: tags }))
-      formData.append('image', selectedFile);
-    }
+    formData = new FormData();
+    formData.append('dto', JSON.stringify({ 
+        id: data?.id,
+        title: title, 
+        description: description, 
+        steps: steps, 
+        ingredients: ingredients, 
+        tags: tags 
+      }));
+
+
+    if (selectedFile != null) {
+        formData.append('image', selectedFile);
+      }
     
     update({
       article: {

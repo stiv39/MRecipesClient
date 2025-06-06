@@ -15,11 +15,11 @@ export const AdminArticlesPage: React.FC = () => {
   const [articleId, setArticleId] = useState<string>('')
   const [articleName, setArticleName] = useState<string>('')
 
-  const token = useArticleStore((s) => s.token)
+ const token = localStorage.getItem('mrecipestoken')
 
   useEffect(() => {
     if (!token || token.length === 0) {
-      navigate('admin/login')
+      navigate('/admin/login')
     }
   }, [token])
 
