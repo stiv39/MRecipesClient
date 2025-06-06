@@ -7,6 +7,8 @@ export const ArticleDetailPage: React.FC = () => {
   const { articleId } = useParams()
   const { data, isLoading } = useArticle(articleId!)
 
+  const shouldShowGridImg = data?.steps && data.steps.length > 2;
+
   return (
     <Grid container component={'div'}>
       {isLoading ? (
@@ -31,7 +33,15 @@ export const ArticleDetailPage: React.FC = () => {
                 <Paper sx={{ position: 'absolute', background: 'white', padding: '20px', top: '50%', left: '5%' }}>
                   <Stack direction={'column'} spacing={'20px'}>
                     <Typography variant="subtitle2">{data?.title}</Typography>
-                    <Typography variant="caption">{data?.tags}</Typography>
+                    <Stack direction={'row'} spacing={'10px'}>
+                      {data?.tags.map((t) => (
+                        <Paper sx={{ backgroundColor: 'orange', padding: '5px' }}>
+                          <Typography variant="caption" fontWeight={'bold'}>
+                            {t}
+                          </Typography>
+                        </Paper>
+                      ))}
+                    </Stack>
                   </Stack>
                 </Paper>
               </Box>
@@ -39,9 +49,16 @@ export const ArticleDetailPage: React.FC = () => {
           </Grid>
 
           <Grid item xs={12} sx={{ marginTop: '50px' }}>
-            <Paper>
-              <Typography variant="subtitle2">{data?.description}</Typography>
+            <Paper sx={{ padding: '10px' }}>
+              <Typography variant="caption">{data?.description}</Typography>
             </Paper>
+          </Grid>
+
+          <Grid item xs={6} hidden={!shouldShowGridImg}>
+                <img                 
+                  style={{ maxWidth: '400px', borderRadius: '10px', maxHeight: '300px' }}
+                  src={`data:image/jpeg;base64,${data?.image}`}
+                />
           </Grid>
 
           <Grid item xs={12} sx={{ marginTop: '50px', display: 'flex', justifyContent: 'flex-end' }}>
@@ -57,8 +74,8 @@ export const ArticleDetailPage: React.FC = () => {
             </Paper>
           </Grid>
 
-          <Grid item xs={12} sx={{ marginTop: '50px', display: 'flex', justifyContent: 'start' }}>
-            <Paper sx={{ padding: 5 }}>
+          <Paper sx={{ marginTop: '50px' }}>
+            <Grid item xs={12} sx={{ padding: '10px' }}>
               <Typography sx={{ marginBottom: '20px' }} variant="h4">
                 {'Postup'}
               </Typography>
@@ -66,20 +83,20 @@ export const ArticleDetailPage: React.FC = () => {
               <Box component={'div'} sx={{ display: 'flex' }}>
                 <Box>
                   {data?.steps.map((step, index) => (
-                    <Box component={'div'} sx={{ marginTop: '20px' }} key={step.length}>
+                    <Box component={'div'} sx={{ marginTop: '20px', padding: '10px' }} key={step.length}>
                       <Typography variant="h5">{`KROK ${index + 1}`}</Typography>
-                      <Typography variant="subtitle1">{step}</Typography>
+                      <Typography variant="caption">{step}</Typography>
                     </Box>
                   ))}
                 </Box>
                 <img
-                  style={{ maxWidth: '400px', borderRadius: '10px' }}
+                  hidden={shouldShowGridImg}
+                  style={{ maxWidth: '400px', borderRadius: '10px', maxHeight: '300px' }}
                   src={`data:image/jpeg;base64,${data?.image}`}
                 />
               </Box>
-            </Paper>
-          </Grid>
-
+            </Grid>
+          </Paper>
           <Grid item xs={12} sx={{ marginTop: '50px' }}>
             <Paper sx={{ padding: 5 }}>
               <Typography sx={{ marginBottom: '20px' }} variant="h4">
