@@ -1,6 +1,5 @@
 import { ArticleQuery } from '../../store/store'
-import { categoriesMock } from './mocks'
-import { Article, ArticleDetails, Tag, IArticleService, AddArticleComment, AddArticle } from './types'
+import { Article, ArticleDetails, IArticleService, AddArticleComment, AddArticle } from './types'
 import axios from 'axios'
 
 const baseurl = 'https://localhost:7200'
@@ -16,16 +15,6 @@ export class ArticleService implements IArticleService {
     } catch (ex) {
       console.error(ex)
       return []
-    }
-  }
-
-  loadCategories = async (): Promise<Tag[]> => {
-    try {
-      const response = await axios.get(`${baseurl}/articles/tags`)
-      return response.data
-    } catch (ex) {
-      console.error(ex)
-      return categoriesMock
     }
   }
 
