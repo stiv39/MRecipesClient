@@ -2,7 +2,6 @@ import { ArticleQuery } from '../../store/store'
 
 export type IArticleService = {
   loadArticles(query: ArticleQuery): Promise<Article[]>
-  loadCategories(): Promise<Tag[]>
   addNewArticle(article: AddArticle, token: string): Promise<boolean>
   updateArticle(article: AddArticle, token: string): Promise<boolean>
   deleteArticle(articleId: string, token: string): Promise<boolean>
@@ -31,12 +30,6 @@ export type AddArticle = {
   ingredients: string
   id?: string
   image?: FormData
-}
-
-export type Tag = {
-  tagId: string,
-  name: string
-  hasImage: boolean
 }
 
 export type ArticleDetails = {

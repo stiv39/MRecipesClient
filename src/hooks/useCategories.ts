@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { ArticleService } from '../services/articleService/articleService'
+import { TagService } from '../services/tagService/tagService'
 
-const service = new ArticleService()
+const service = new TagService()
 
 const useArticles = () =>
   useQuery({

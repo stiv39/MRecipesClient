@@ -1,4 +1,4 @@
-import { Article, ArticleDetails, Tag } from './types'
+import { Article, ArticleDetails } from './types'
 
 export const articlesMock: Article[] = [
   {
@@ -81,18 +81,6 @@ export const articlesMock: Article[] = [
     title: 'Špagety Bolognese',
     dateAdded: '2023-05-31',
   },
-]
-
-export const categoriesMock: Tag[] = [
-  { name: 'Hlavný chod' },
-  { name: 'Dezerty' },
-  { name: 'Predjedlá' },
-  { name: 'Šaláty' },
-  { name: 'Polievky' },
-  { name: 'Nápoje' },
-  { name: 'Bez lepku' },
-  { name: 'Bez laktózy' },
-  { name: 'Sladké' },
 ]
 
 export const articlesDetailsMocks: ArticleDetails[] = [

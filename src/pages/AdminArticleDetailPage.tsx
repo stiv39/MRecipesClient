@@ -54,8 +54,7 @@ export const AdminArticleDetailPage: React.FC = () => {
   }, [setSelectedFile])
 
   const handleSubmit = () => {
-    let formData
-    formData = new FormData()
+    const formData = new FormData()
 
     formData.append(
       'dto',
